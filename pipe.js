@@ -1,13 +1,26 @@
-function Pipe(x){
+function Pipe(imageTop, imageBottom, x){
+	this.imageTop = imageTop;
+	this.imageBottom = imageBottom;
 	this.x = x;
 	this.velocity = -1;
 	this.top = random(height / 2);
-	this.GAP = 256;
+	this.GAP = 100;
 	this.bottom = height - this.top - this.GAP;
-	this.width = 20;
+	
+	this.width = function(){
+		return this.imageTop.width;
+	}
+
+	this.left = function(){
+		return this.x;
+	}
+
+	this.right = function(){
+		return this.x + this.width();
+	}
 
 	this.isOffScreen = function(){
-		return this.x <= -this.width;
+		return this.x <= -this.imageTop.width;
 	}
 
 	this.update = function(){
@@ -15,8 +28,9 @@ function Pipe(x){
 	}
 
 	this.render = function(){
-		fill("#7f6600");
-		rect(this.x,0, this.width, this.top);
-		rect(this.x, height - this.bottom, this.width, this.bottom);
+		image(this.imageTop, this.x, height - this.bottom - this.GAP - this.imageTop.height,
+		 this.imageTop.width, this.imageTop.height);
+		image(this.imageBottom, this.x, height - this.bottom,
+		 this.imageBottom.width, this.imageBottom.height);
 	}
 }
